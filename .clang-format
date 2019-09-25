@@ -1,0 +1,19 @@
+﻿---
+AllowShortFunctionsOnASingleLine: None
+BasedOnStyle: LLVM
+BreakBeforeBraces: Attach
+BreakBeforeTernaryOperators: 'true'
+BreakConstructorInitializersBeforeComma: 'false'
+ColumnLimit: '160'
+ConstructorInitializerIndentWidth: '10'
+ContinuationIndentWidth: '10'
+Cpp11BracedListStyle: 'false'
+IndentCaseLabels: 'true'
+IndentWidth: '4'
+NamespaceIndentation: All
+PointerAlignment: Left
+SpaceBeforeAssignmentOperators: 'true'
+SpacesInAngles: 'false'
+TabWidth: '4'
+
+...

@@ -1,0 +1,3 @@
+[submodule "googletest"]
+path = LoggingServer/tests/lib/googletest
+url = https://github.com/google/googletest.git
