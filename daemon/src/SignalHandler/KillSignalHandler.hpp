@@ -4,7 +4,7 @@
 #include <signal.h>
 #include <stdexcept>
 
-#include "../Logging/Logger.h"
+#include "../Logging/Logger.hpp"
 
 using std::runtime_error;
 

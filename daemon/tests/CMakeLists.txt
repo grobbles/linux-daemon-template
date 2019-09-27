@@ -5,6 +5,8 @@ project(${MODULE_NAME})
 
 add_subdirectory(lib/googletest)
 
+# SET(CMAKE_CXX_FLAGS --Wwrite-strings)
+
 include_directories(${SOURCE_DIR}) 
 include_directories(lib/googletest/googletest/include)
 

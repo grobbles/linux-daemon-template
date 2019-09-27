@@ -3,7 +3,7 @@
 #include <set>
 #include <string>
 
-#include "../Logging/Logger.h"
+#include "../Logging/Logger.hpp"
 
 using namespace std;
 

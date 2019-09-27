@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.10)
-project (DaemonTemplate)
+project (daemon)
 
 set(DIVISIBLE_INSTALL_BIN_DIR ${PROJECT_SOURCE_DIR}/build/bin)
 set(DIVISIBLE_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/build/lib)
@@ -7,4 +7,6 @@ set(DIVISIBLE_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/build/lib)
 MESSAGE("DIVISIBLE_INSTALL_BIN_DIR = " ${DIVISIBLE_INSTALL_BIN_DIR})
 MESSAGE("DIVISIBLE_INSTALL_LIB_DIR = " ${DIVISIBLE_INSTALL_LIB_DIR})
 
-add_subdirectory(DaemonTemplate)
+add_subdirectory(daemon)
+
+

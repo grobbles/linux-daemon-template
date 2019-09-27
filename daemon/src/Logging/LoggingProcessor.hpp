@@ -14,25 +14,33 @@
 
 using namespace std;
 
-class ServerLoggerFileHandler {
+class LoggingProcessor {
 
   private:
     string logFilePath;
     string applicatinName;
 
+    bool isSyslogEnable = false;
+    bool isTermialEnable = false;
+    bool isFilelogEnable = false;
+
     std::ofstream file;
 
   public:
-    static ServerLoggerFileHandler& getInstance();
+    static LoggingProcessor& getInstance();
     void setProperies(string logFilePath, string applicatinName);
 
-    ServerLoggerFileHandler(ServerLoggerFileHandler const&) = delete;
-    void operator=(ServerLoggerFileHandler const&) = delete;
+    LoggingProcessor(LoggingProcessor const&) = delete;
+    void operator=(LoggingProcessor const&) = delete;
     void handleLogString(string logMessage);
 
+    void enableSyslog();
+    void enableTermial();
+    void enableFilelog();
+
   private:
-    ServerLoggerFileHandler();
-    ~ServerLoggerFileHandler();
+    LoggingProcessor();
+    ~LoggingProcessor();
 
     string createDate();
     string numberToStringWithFixedLength(const int i, const int length);

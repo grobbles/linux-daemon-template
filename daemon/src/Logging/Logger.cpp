@@ -5,20 +5,7 @@
  *      Author: roder
  */
 
-#include "Logger.h"
-
-Log::Log() {
-    this->logLevel = LogLevel::VERBOSE;
-}
-
-Log::Log(LogLevel logLevel) : Log() {
-    this->logLevel = logLevel;
-}
-
-Log::~Log() {
-    // each log message is a new instance
-    std::cout << "\n";
-}
+#include "Logger.hpp"
 
 void Log::v(string logTag, string logmessage) {
     string metaInfos = createMetaInformation(getCurrentDate(), logTag, "VERBOSE");
@@ -50,9 +37,7 @@ void Log::e(string logTag, string logmessage) {
 }
 
 void Log::stringOutput(string loggingMessage) {
-    ServerLoggerFileHandler& loggingProcessor = ServerLoggerFileHandler::getInstance();
-    std::cout << loggingMessage << std::endl;
-
+    LoggingProcessor& loggingProcessor = LoggingProcessor::getInstance();
     loggingProcessor.handleLogString(loggingMessage + "\n");
 }
 
@@ -63,8 +48,8 @@ string Log::getCurrentDate() {
     int milli = getMilliseconds();
 
     char date[30];
-    sprintf(date, "%4.4d.%2.2d.%2.2d - %2.2d:%2.2d:%2.2d.%4.4d", localTime->tm_year + 1900, localTime->tm_mon + 1,
-            localTime->tm_mday, localTime->tm_hour, localTime->tm_min, localTime->tm_sec, milli);
+    sprintf(date, "%4.4d.%2.2d.%2.2d - %2.2d:%2.2d:%2.2d.%4.4d", localTime->tm_year + 1900, localTime->tm_mon + 1, localTime->tm_mday, localTime->tm_hour,
+            localTime->tm_min, localTime->tm_sec, milli);
     string result = string(date);
     return result;
 }

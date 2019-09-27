@@ -6,6 +6,7 @@ project(${MODULE_NAME})
 add_subdirectory(ExampleModule)
 add_subdirectory(Logging)
 add_subdirectory(SignalHandler)
+add_subdirectory(ArgumentParser)
 
 find_package (Threads)
 SET(CMAKE_CXX_FLAGS -pthread)

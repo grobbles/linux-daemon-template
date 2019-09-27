@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APPLICATION_NAME=DaemonTemplate
+APPLICATION_NAME=daemon
 CMAKE=/usr/bin/cmake
 
 ########################################################################################################
@@ -35,6 +35,13 @@ function cleanProject() {
     rm -rfv $APPLICATION_NAME/lib/*
 }
 
+function cleanSystem() {
+    systemctl stop $APPLICATION_NAME
+    sudo rm -rfv /usr/bin/$APPLICATION_NAME
+    sudo rm -rfv /usr/lib/systemd/system/$APPLICATION_NAME.service
+    sudo rm -rfv /var/log/$APPLICATION_NAME
+}
+
 function buildAll() {
     $CMAKE . -B build
     $CMAKE --build $PWD/build --config Debug --target all -- -j 14
@@ -50,6 +57,9 @@ function buildDaemon() {
 
 function testDaemon() {
     $CMAKE --build $PWD/build --config Debug --target $APPLICATION_NAME -- -j 14
+    $CMAKE --build $PWD/build --config Debug --target install
+
+    ./build/bin/${APPLICATION_NAME}Tests
 }
 
 function run() {
@@ -69,19 +79,19 @@ case "$1" in
     buildAll
     ;;
 
--c | --cleanProject)
+-cP | --cleanProject)
     echo "clean the project"
     cleanProject
+    ;;
+
+-cS | --cleanSystem)
+    echo "clean the project"
+    cleanSystem
     ;;
 
 -bD | --buildDaemon)
     echo "build daemon"
     buildDaemon
-    ;;
-
--sD | --startLoggingServer)
-    echo "start daemon"
-    startLoggingServer
     ;;
 
 -tD | --testDaemon)
@@ -92,6 +102,26 @@ case "$1" in
 -r | --run)
     echo "run daemon"
     run
+    ;;
+
+-s | --start)
+    echo "start daemon"
+    echo "copy file: $APPLICATION_NAME to /usr/bin/ "
+    sudo cp $PWD/build/bin/$APPLICATION_NAME /usr/bin/
+
+    echo "copy file: $APPLICATION_NAME.service to /usr/lib/systemd/system"
+    sudo cp $PWD/$APPLICATION_NAME/$APPLICATION_NAME.service /usr/lib/systemd/system
+
+    echo "copy file: $APPLICATION_NAME.config to /etc/$APPLICATION_NAME"
+    sudo cp $PWD/$APPLICATION_NAME/$APPLICATION_NAME.service /usr/lib/systemd/system
+
+    systemctl start $APPLICATION_NAME
+    sleep 3
+    systemctl status $APPLICATION_NAME
+    sleep 3
+    systemctl reload $APPLICATION_NAME
+    sleep 3
+    systemctl stop $APPLICATION_NAME
     ;;
 
 -h | --help | *)

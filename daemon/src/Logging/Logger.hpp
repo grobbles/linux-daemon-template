@@ -20,27 +20,14 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#include "ServerLoggerFileHandler.hpp"
+#include "LoggingProcessor.hpp"
 
 using namespace std;
 
 enum LogLevel { VERBOSE, DEBUG, INFO, WARN, ERROR };
 
 class Log {
-  private:
-    LogLevel logLevel;
-
   public:
-    Log(LogLevel logLevel);
-    Log();
-
-    ~Log();
-
-    static Log instance() {
-        static Log instance;
-        return instance;
-    }
-
     static void v(string logTag, string logMessage);
     static void d(string logTag, string logMessage);
     static void i(string logTag, string logMessage);
