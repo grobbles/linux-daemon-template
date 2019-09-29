@@ -10,13 +10,21 @@ function helpPage() {
 
     -i, --initialize:           initialize the project and initialize the git submodules (gtest)
 
-    -b, --build:               build the executables
+    -b, --buildDaemon:          build the all executables
 
-    -c, --cleanProject:        clean the project
+    -bD, --buildDaemon:         build the daemon executables
 
-    -s, --startLoggingServer:  execute the logging server
+    -cP, --cleanProject:        clean the project
 
-    -t, --testLoggingServer:   execute the logging server unit tests
+    -cS, --cleanSystem:         clean the system
+
+    -s, --startLoggingServer:   execute the logging server
+
+    -tD, --testDaemon:          execute the daemon unit tests
+
+    -r, --run:                  start daemon in the terminal session
+
+    -s, --start:                start the daeman about systemd (systemctl) 
     
     -h, --help:                 print the help page
 
@@ -63,7 +71,34 @@ function testDaemon() {
 }
 
 function run() {
+    echo "run daemon in the terminal session"
     ./build/bin/$APPLICATION_NAME
+}
+
+function startDaemon() {
+    buildDaemon
+    echo "start daemon"
+    systemctl stop $APPLICATION_NAME
+    sleep 1
+
+    echo "copy file: $APPLICATION_NAME to /usr/bin/ "
+    sudo cp $PWD/build/bin/$APPLICATION_NAME /usr/bin/
+
+    echo "copy file: $APPLICATION_NAME.service to /usr/lib/systemd/system"
+    sudo cp $PWD/$APPLICATION_NAME/$APPLICATION_NAME.service /usr/lib/systemd/system
+
+    echo "copy file: $APPLICATION_NAME.config to /etc/$APPLICATION_NAME"
+    sudo rm -vfr /etc/daemon
+    sudo mkdir /etc/daemon
+    sudo cp $PWD/$APPLICATION_NAME/$APPLICATION_NAME.service /etc/daemon/
+
+    systemctl start $APPLICATION_NAME &
+    sleep 3
+
+    systemctl status $APPLICATION_NAME
+    sleep 3
+
+    systemctl stop $APPLICATION_NAME
 }
 
 ########################################################################################################
@@ -105,23 +140,8 @@ case "$1" in
     ;;
 
 -s | --start)
-    echo "start daemon"
-    echo "copy file: $APPLICATION_NAME to /usr/bin/ "
-    sudo cp $PWD/build/bin/$APPLICATION_NAME /usr/bin/
-
-    echo "copy file: $APPLICATION_NAME.service to /usr/lib/systemd/system"
-    sudo cp $PWD/$APPLICATION_NAME/$APPLICATION_NAME.service /usr/lib/systemd/system
-
-    echo "copy file: $APPLICATION_NAME.config to /etc/$APPLICATION_NAME"
-    sudo cp $PWD/$APPLICATION_NAME/$APPLICATION_NAME.service /usr/lib/systemd/system
-
-    systemctl start $APPLICATION_NAME
-    sleep 3
-    systemctl status $APPLICATION_NAME
-    sleep 3
-    systemctl reload $APPLICATION_NAME
-    sleep 3
-    systemctl stop $APPLICATION_NAME
+    echo "start the daeman about systemd (systemctl) "
+    startDaemon
     ;;
 
 -h | --help | *)

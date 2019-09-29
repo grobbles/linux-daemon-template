@@ -1,5 +1,4 @@
 
-
 #include "Daemon.hpp"
 #include "ExampleModule/ExampleModule.hpp"
 #include "Logging/Logger.hpp"
@@ -13,12 +12,7 @@
 
 using namespace std;
 
-int main(const int argc, const char** argv) {
-    string logtag = "main";
-    string applicatinName = string(argv[1]);
-
-    ArgumentParser parser(argc, argv);
-
+void configLogging(const string applicatinName, ArgumentParser parser) {
     string logFilePath;
     if (parser.exitsCommandOption("--logFilePath")) {
         logFilePath = parser.getCommandOption("--logFilePath");
@@ -26,13 +20,19 @@ int main(const int argc, const char** argv) {
         logFilePath = "/var/log/daemon/";
     }
 
-    Daemon* daemon = new Daemon();
-    daemon->daemonize();
-
     LoggingProcessor& loggingProcessor = LoggingProcessor::getInstance();
     loggingProcessor.setProperies(logFilePath, applicatinName);
     loggingProcessor.enableTermial();
     loggingProcessor.enableFilelog();
+    // loggingProcessor.enableSyslog();
+}
+
+int main(const int argc, const char** argv) {
+    string logtag = "main";
+    string applicatinName = "daemonTemplate";
+
+    ArgumentParser parser(argc, argv);
+    configLogging(applicatinName, parser);
 
     try {
         KillSignalHandler killSignalHandler;

@@ -5,8 +5,8 @@ Description=Daemon Template
 [Service]
 Type=simple
 ExecStart=/usr/bin/daemon \
-	--conf_file /etc/daemon/daemon.conf \
-	--log_file /var/log/daemon.log
+	--configFile /etc/daemon/daemon.conf \
+	--logFilePath /var/log/daemon/
 User=root
 ExecReload=/bin/kill -HUP $MAINPID
 
