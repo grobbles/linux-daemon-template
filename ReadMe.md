@@ -13,6 +13,12 @@ This a simple linux daemon with the following functions:
 -   CMake
 -   Make
 -   C++ compiler
+-   GTest (https://github.com/google/googletest.git)
+
+### Install GTest
+
+-   checkout this repo "https://github.com/google/googletest.git" and install all with cmake
+-   install this lib with following command "sudo apt-get install libgtest-dev"
 
 ## Start Development
 
@@ -23,7 +29,7 @@ Checkout this project
     cd linux-daemon-template
 ```
 
-Run the main script to initialize the project and initialize the git submodules (gtest)
+Run the main script to initialize the project
 
 ```bash
      ./rund.sh -i
@@ -39,6 +45,12 @@ To install the daemon in your system and start the daemon run the main script. T
 
 ```bash
      sudo ./rund.sh -s
+```
+
+To create a debain package run the main script with the following command
+
+```bash
+     ./rund.sh -p
 ```
 
 ## IDE
@@ -80,3 +92,7 @@ Example:
     2.0.0 # merge a feature branch with a incompatible API change
     2.0.1 # merge a bugfix branch
 ```
+
+## LICENSE
+
+MIT License

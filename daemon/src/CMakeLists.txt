@@ -11,4 +11,4 @@ file(GLOB HEADER "*.h" "*.hpp" "*/*.h" "*/*.hpp")
 
 add_executable(${MODULE_NAME} ${SOURCES})
 
-install(TARGETS ${MODULE_NAME} DESTINATION ${DIVISIBLE_INSTALL_BIN_DIR})
+install(TARGETS ${MODULE_NAME} DESTINATION "/usr/bin/" )
