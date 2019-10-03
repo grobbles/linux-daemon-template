@@ -1,6 +1,6 @@
 
-#include "gtest/gtest.h"
 #include <ExampleModule.hpp>
+#include <gtest/gtest.h>
 #include <vector>
 
 using namespace std;

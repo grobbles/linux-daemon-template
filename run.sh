@@ -24,6 +24,8 @@ function helpPage() {
 
     -r, --run:                  start daemon in the terminal session
 
+    -p, --package:              create a debain package
+
     -s, --start:                start the daeman about systemd (systemctl) 
     
     -h, --help:                 print the help page
@@ -32,15 +34,12 @@ EOF
 }
 
 function projectInitialize() {
-    git submodule init && git submodule update
     cmake . -B build
 }
 
 function cleanProject() {
     rm -rfv bin/
     rm -rfv build/
-    rm -rfv $APPLICATION_NAME/include/*
-    rm -rfv $APPLICATION_NAME/lib/*
 }
 
 function cleanSystem() {
@@ -53,26 +52,34 @@ function cleanSystem() {
 function buildAll() {
     $CMAKE . -B build
     $CMAKE --build $PWD/build --config Debug --target all -- -j 14
-    $CMAKE --build $PWD/build --config Debug --target install
-
 }
 
 function buildDaemon() {
     $CMAKE --build $PWD/build --config Debug --target $APPLICATION_NAME -- -j 14
-    $CMAKE --build $PWD/build --config Debug --target install
+}
 
+function buildDaemonTests() {
+    $CMAKE --build $PWD/build --config Debug --target ${APPLICATION_NAME}Tests -- -j 14
 }
 
 function testDaemon() {
-    $CMAKE --build $PWD/build --config Debug --target $APPLICATION_NAME -- -j 14
-    $CMAKE --build $PWD/build --config Debug --target install
+    buildDaemonTests
 
-    ./build/bin/${APPLICATION_NAME}Tests
+    ./build/${APPLICATION_NAME}/tests/${APPLICATION_NAME}Tests
 }
 
 function run() {
-    echo "run daemon in the terminal session"
-    ./build/bin/$APPLICATION_NAME
+    buildDaemon
+
+    ./build/${APPLICATION_NAME}/src/$APPLICATION_NAME
+}
+
+function createDebianPackage() {
+    buildAll
+
+    cd build
+    cpack
+    cd ..
 }
 
 function startDaemon() {
@@ -118,7 +125,7 @@ case "$1" in
     ;;
 
 -cS | --cleanSystem)
-    echo "clean the project"
+    echo "clean the system"
     cleanSystem
     ;;
 
@@ -137,13 +144,18 @@ case "$1" in
     run
     ;;
 
+-p | --package)
+    echo "create install debain package "
+    createDebianPackage
+    ;;
+
 -s | --start)
     echo "start the daeman about systemd (systemctl) "
     startDaemon
     ;;
 
 -h | --help | *)
-    echo "help page: "
+    echo "print help page: "
     helpPage
     ;;
 esac

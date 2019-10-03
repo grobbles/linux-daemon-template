@@ -3,11 +3,9 @@ set(MODULE_NAME ${PROJECT_NAME}Tests)
 cmake_minimum_required(VERSION 3.10)
 project(${MODULE_NAME})
 
-add_subdirectory(lib/googletest)
-
 set(CMAKE_CXX_FLAGS  -pthread)
 
-include_directories(lib/googletest/googletest/include)
+# include_directories(lib/googletest/googletest/include)
 
 file(GLOB SOURCES "main.cpp" "src/*/*.cpp" "../src/*/*.hpp"  "../src/*/*.cpp") 
 
@@ -17,7 +15,5 @@ add_executable(${MODULE_NAME} ${SOURCES})
 target_include_directories(${MODULE_NAME} PRIVATE  ../src/Logging/ ../src/ArgumentParser/ ../src/ExampleModule/)
 
 target_link_libraries(${MODULE_NAME}  gtest)
-
-install(TARGETS ${MODULE_NAME} DESTINATION ${DIVISIBLE_INSTALL_BIN_DIR})
 
 cmake_minimum_required(VERSION 3.2)
