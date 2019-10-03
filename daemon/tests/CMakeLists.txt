@@ -5,14 +5,19 @@ project(${MODULE_NAME})
 
 add_subdirectory(lib/googletest)
 
-# SET(CMAKE_CXX_FLAGS --Wwrite-strings)
+set(CMAKE_CXX_FLAGS  -pthread)
 
-include_directories(${SOURCE_DIR}) 
 include_directories(lib/googletest/googletest/include)
 
-file(GLOB SOURCES "*.cpp" "src/*.cpp" "src/*/*.cpp")
+file(GLOB SOURCES "main.cpp" "src/*/*.cpp" "../src/*/*.hpp"  "../src/*/*.cpp") 
 
+message(${SOURCES})
 add_executable(${MODULE_NAME} ${SOURCES})
-target_link_libraries(${MODULE_NAME} ExampleModule  gtest)
+
+target_include_directories(${MODULE_NAME} PRIVATE  ../src/Logging/ ../src/ArgumentParser/ ../src/ExampleModule/)
+
+target_link_libraries(${MODULE_NAME}  gtest)
 
 install(TARGETS ${MODULE_NAME} DESTINATION ${DIVISIBLE_INSTALL_BIN_DIR})
+
+cmake_minimum_required(VERSION 3.2)

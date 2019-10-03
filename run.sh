@@ -97,8 +97,6 @@ function startDaemon() {
 
     systemctl status $APPLICATION_NAME
     sleep 3
-
-    systemctl stop $APPLICATION_NAME
 }
 
 ########################################################################################################
