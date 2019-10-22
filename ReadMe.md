@@ -32,25 +32,25 @@ Checkout this project
 Run the main script to initialize the project
 
 ```bash
-     ./rund.sh -i
+     ./run.sh -i
 ```
 
 To build the project run the scpript with following command
 
 ```bash
-     ./rund.sh -b
+     ./run.sh -b
 ```
 
 To install the daemon in your system and start the daemon run the main script. This command build also the daemon.
 
 ```bash
-     sudo ./rund.sh -s
+     sudo ./run.sh -s
 ```
 
 To create a debain package run the main script with the following command
 
 ```bash
-     ./rund.sh -p
+     ./run.sh -p
 ```
 
 ## IDE

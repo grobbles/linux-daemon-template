@@ -71,7 +71,7 @@ function testDaemon() {
 function run() {
     buildDaemon
 
-    ./build/${APPLICATION_NAME}/src/$APPLICATION_NAME
+    ./build/${APPLICATION_NAME}/main/$APPLICATION_NAME
 }
 
 function createDebianPackage() {
