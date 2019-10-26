@@ -1,6 +1,7 @@
 set(MODULE_NAME ${PROJECT_NAME}Tests)
 project(${MODULE_NAME})
-message("ProjectName= " ${MODULE_NAME})
+message("")
+message("MODULE_NAME --> " ${MODULE_NAME})
 
 set(CMAKE_CXX_FLAGS  -pthread)
 
